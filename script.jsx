@@ -8,37 +8,45 @@ class Fetch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      countries: []
-
+      items: []
     };
   }
   componentDidMount () {
-    fetch('http://services.groupkt.com/country/get/all').then((response) => {
-      response.json().then((data) => {
-        const countries = data.RestResponse.result;
-        this.setState({countries});
-        console.log(countries);
+    fetch('https://swapi.co/api/people').then((response) => {
+      response.json().then(({results: items}) => {
+        this.setState({
+          items
+        });
       });
     });
   }
-  render () {
-    return (
-      <table className='myTable'>
-        <tr>
-          <th>Country</th>
-          <th>Alpha 2 Code</th>
-          <th>Alpha 3 Code</th>
-        </tr>
-        {this.state.countries.map(country =>
-          <tr key={country.alpha3_code}>
-            <td>{country.name}</td>
-            <td className='alpha'>{country.alpha2_code}</td>
-            <td className='alpha'>{country.alpha3_code}</td>
-          </tr>
-        )}
-      </table>
-    );
+  filter (e) {
+    this.setState({filter: e.target.value})
   }
+  render () {
+    let items = this.state.items;
+    if (this.state.filter) {
+      items = items.filter(item =>
+      item.name.toLowerCase()
+      .includes(this.state.filter.toLowerCase()))
+    }
+    return(
+      <div>
+        <h1 className="title">Star Wars</h1>
+        <h2 className="title">Character Search</h2>
+        <input type="text"
+          onChange={this.filter.bind(this)} placeholder="Enter a Character Name"/>
+        {items.map((item, i) =>
+          <article key={i}>
+            <header><h2>Name: {item.name}</h2></header>
+            <section>Gender: {item.gender}</section>
+            <section>Mass: {item.mass}</section>
+            <section>Height: {item.height}</section>
+          </article>
+        )}</div>
+    )
+  }
+
 }
 
 ReactDOM.render(<Fetch />, document.getElementById('fetch'));
