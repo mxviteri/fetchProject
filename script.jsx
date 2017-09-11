@@ -7,11 +7,17 @@ const styles = require('./style.css');
 class Fetch extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {};
+  }
+
+  componentWillMount() {
+  // Perhaps fetch some data here
   }
 
   render() {
     return (
-      <h1>Address Book / Country Codes</h1>
+      <h1>Sample Blog</h1>
       // Your code here
     );
   }
