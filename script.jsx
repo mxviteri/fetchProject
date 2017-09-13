@@ -12,7 +12,7 @@ class Fetch extends React.Component {
     };
   }
   componentDidMount () {
-    fetch('https://swapi.co/api/people').then((response) => {
+    fetch('https://itunes.apple.com/search?term=ramones&limit=15entity=song').then((response) => {
       response.json().then(({results: items}) => {
         this.setState({
           items
@@ -23,25 +23,27 @@ class Fetch extends React.Component {
   filter (e) {
     this.setState({filter: e.target.value})
   }
+
+
   render () {
     let items = this.state.items;
-    if (this.state.filter) {
-      items = items.filter(item =>
-      item.name.toLowerCase()
-      .includes(this.state.filter.toLowerCase()))
-    }
+
     return(
       <div>
-        <h1 className="title">Star Wars</h1>
-        <h2 className="title">Character Search</h2>
-        <input type="text"
-          onChange={this.filter.bind(this)} placeholder="Enter a Character Name"/>
+        <h1 className="title">The Ramones</h1>
+        <h2 className="title">Album Blog</h2>
+
         {items.map((item, i) =>
           <article key={i}>
-            <header><h2>Name: {item.name}</h2></header>
-            <section>Gender: {item.gender}</section>
-            <section>Mass: {item.mass}</section>
-            <section>Height: {item.height}</section>
+            <header><h2>Album: {item.collectionName}</h2></header>
+            <section>Track: {item.trackName}</section>
+            <section>Genre: {item.primaryGenreName}</section>
+            <section>Media Type: {item.kind}</section>
+            <section>Artist ID: {item.artistId}</section>
+            <section>Collection ID: {item.collectionId}</section>
+            <footer></footer>
+            <a className="btn btn-primary" href={item.artistViewUrl} role="button" target="blank">Read About The Artist</a>
+            <a className="btn btn-success" href={item.previewUrl} role="button" target="blank">Listen Here</a>
           </article>
         )}</div>
     )
